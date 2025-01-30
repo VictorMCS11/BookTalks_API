@@ -32,7 +32,7 @@ function conMysql(){
 }
 
 conMysql()
-
+//GET ALL
 function all(table){
     return new Promise( (resolve, reject) =>{
         conexion.query(`SELECT * FROM ${table} LIMIT 8;`, (error, result) =>{
@@ -48,7 +48,7 @@ function allById(table, id, column){
     })
 }
 
-
+//GET ONE
 function oneById(table, id){
     return new Promise( (resolve, reject) =>{
         conexion.query(`SELECT * FROM ${table} WHERE ${table}_id=${id}`, (error, result) =>{
@@ -85,7 +85,28 @@ function oneImage(table, name){
     })
 }
 
-
+//ADD
+function addBook(table, data){
+    return new Promise( (resolve, reject) =>{
+        conexion.query(`INSERT INTO ${table} (title, author, release_date, url_image) VALUES (?, ?, ?, ?)`, [data.title, data.author, data.url_image], (error, result) =>{
+            return error ? reject(error) : resolve(result);
+        })
+    })
+}
+function addReview(table, data){
+    return new Promise( (resolve, reject) =>{
+        conexion.query(`INSERT INTO ${table} (score, content, user_id, book_id) VALUES (?, ?, ?, ?)`, [data.score, data.content, data.user.userId, data.book.bookId], (error, result) =>{
+            return error ? reject(error) : resolve(result);
+        })
+    })
+}
+function addForumMessage(table, data){
+    return new Promise( (resolve, reject) =>{
+        conexion.query(`INSERT INTO ${table} (content, user_id, forum_id) VALUES (?, ?, ?)`, [data.content, data.user.userId, data.forum.forumId], (error, result) =>{
+            return error ? reject(error) : resolve(result);
+        })
+    })
+}
 function addBook(table, data){
     return new Promise( (resolve, reject) =>{
         conexion.query(`INSERT INTO ${table} (title, author, release_date, url_image) VALUES (?, ?, ?, ?)`, [data.title, data.author, data.url_image], (error, result) =>{
@@ -95,7 +116,15 @@ function addBook(table, data){
 }
 function addUser(table, data){
     return new Promise( (resolve, reject) =>{
-        conexion.query(`INSERT INTO ${table} (name, password, email) VALUES (?, ?, ?)`, [data.name, data.password, data.email], (error, result) =>{
+        conexion.query(`INSERT INTO ${table} (user_id, name, email, active) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), email = VALUES(email), active = VALUES(active)`, [data.id, data.name, data.email, data.active], (error, result) =>{
+            return error ? reject(error) : resolve(result);
+        })
+    })
+}
+function addAuth(table, data){
+    return new Promise( (resolve, reject) =>{
+        conexion.query(`INSERT INTO ${table} (id, name, password) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), password = VALUES(password)
+`, [data.id,data.name, data.password], (error, result) =>{
             return error ? reject(error) : resolve(result);
         })
     })
@@ -115,7 +144,7 @@ function addForumMessage(table, data){
     })
 }
 
-
+//REMOVE
 function removeBook(table, id){
     return new Promise( (resolve, reject) =>{
         conexion.query(`DELETE FROM ${table} WHERE book_id=${id}`, (error, result) =>{
@@ -154,6 +183,7 @@ module.exports = {
     oneByName,
     addBook, 
     addUser,
+    addAuth,
     addReview,
     addForumMessage,
     removeBook,

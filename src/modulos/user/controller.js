@@ -1,3 +1,6 @@
+// const { response } = require('express');
+const auth = require('../auth')
+
 module.exports = function (dbInyect){
 
     const table = 'user'
@@ -20,13 +23,31 @@ module.exports = function (dbInyect){
         return db.oneByNamePassword(table, body)
     }
     
-    function addUser(body){
-        return db.addUser(table, body)
+    async function addUser(body){
+        const response = await db.addUser(table, body);
+
+        let insertId = response.insertId;
+        if(body.userId == 0){
+            insertId = response.insertId
+        }else{
+            insertId = body.userId
+        }
+
+        if(body.name && body.password){
+            await auth.addAuth({
+                id: insertId,
+                name: body.name,
+                password: body.password
+            })
+        }
+
+        return true
     }
     
     function removeUser(id){
         return db.removeUser(table, id)
     }
+
     return {
         all,
         oneById,

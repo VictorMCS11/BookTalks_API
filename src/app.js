@@ -7,6 +7,7 @@ const path = require('path');
 const app = express();
 
 const user = require('./modulos/user/rutas.js');
+// const auth = require('./modulos/auth/rutas.js');
 const book = require('./modulos/book/rutas.js');
 // const bookCover = require('./images/bookcovers');
 const review = require('./modulos/review/rutas.js');
@@ -31,6 +32,7 @@ app.set('port', config.app.port);
 
 //rutas
 app.use('/api/users', user);
+// app.use('/api/auth', auth);
 app.use('/api/books', book);
 // app.use('/api/bookcover', bookCover);
 app.use('/api/reviews', review);
