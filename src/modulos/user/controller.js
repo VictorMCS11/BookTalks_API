@@ -34,14 +34,15 @@ module.exports = function (dbInyect){
         }
 
         if(body.name && body.password){
-            await auth.addAuth({
+            const response2 = await auth.addAuth({
                 id: insertId,
                 name: body.name,
                 password: body.password
             })
+            return response2
         }
 
-        return true
+        return response
     }
     
     function removeUser(id){

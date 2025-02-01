@@ -35,9 +35,9 @@ router.get('/:id', async function (req, res, next){
     }
 });
 
-router.get('/:title', async function (req, res, next){
+router.post('/book', async function (req, res, next){
     try{
-        const items = await controller.oneByTitle(req.params.title);
+        const items = await controller.oneByTitle(req.body.title, req.body.column);
         responses.success(req, res, items, 200)
     }catch(err){
         next();

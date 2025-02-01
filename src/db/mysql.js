@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const config = require('../config')
+const config = require('../config');
 
 const dbconfig = {
     host: config.mysql.host,
@@ -70,9 +70,9 @@ function oneByTitle(table, title){
         })
     })
 }
-function oneByName(table, name){
+function oneByName(table, name, column){
     return new Promise( (resolve, reject) =>{
-        conexion.query(`SELECT * FROM ${table} WHERE title='${name}'`, (error, result) =>{
+        conexion.query(`SELECT * FROM ${table} WHERE ${column}='${name}'`, (error, result) =>{
             return error ? reject(error) : resolve(result);
         })
     })
@@ -116,7 +116,7 @@ function addBook(table, data){
 }
 function addUser(table, data){
     return new Promise( (resolve, reject) =>{
-        conexion.query(`INSERT INTO ${table} (user_id, name, email, active) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), email = VALUES(email), active = VALUES(active)`, [data.id, data.name, data.email, data.active], (error, result) =>{
+        conexion.query(`INSERT INTO ${table} (user_id, name, email, active) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), email = VALUES(email), active = VALUES(active)`, [data.userId, data.name, data.email, data.active], (error, result) =>{
             return error ? reject(error) : resolve(result);
         })
     })
