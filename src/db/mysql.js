@@ -47,6 +47,23 @@ function allById(table, id, column){
         })
     })
 }
+function allByTitle(table, column, title){
+    return new Promise( (resolve, reject) =>{
+        console.log(table, title, column)
+        const sql = `SELECT * FROM ${table} WHERE ${column} LIKE ?`;
+        conexion.query(sql, [`%${title}%`], (error, result) => {
+            return error ? reject(error) : resolve(result);
+        });
+    })
+}
+
+function allByTwoId(table, reviewId, userId, column1, column2){
+    return new Promise( (resolve, reject) =>{
+        conexion.query(`SELECT * FROM ${table} WHERE ${column1}_id=? AND ${column2}_id=?`, [reviewId, userId], (error, result) =>{
+            return error ? reject(error) : resolve(result);
+        })
+    })
+}
 
 //GET ONE
 function oneById(table, id){
@@ -65,7 +82,7 @@ function oneByNamePassword(table, data){
 }
 function oneByTitle(table, title){
     return new Promise( (resolve, reject) =>{
-        conexion.query(`SELECT * FROM ${table} WHERE title='${title}' OR title LIKE '${title}%' OR title LIKE '%${title}%'`, (error, result) =>{
+        conexion.query(`SELECT * FROM ${table} WHERE title='${title}'`, (error, result) =>{
             return error ? reject(error) : resolve(result);
         })
     })
@@ -121,6 +138,13 @@ function addUser(table, data){
         })
     })
 }
+function addLike(table, data){
+    return new Promise( (resolve, reject) =>{
+        conexion.query(`INSERT INTO ${table} (review_id, user_id) VALUES (?, ?)`, [data.reviewId, data.userId], (error, result) =>{
+            return error ? reject(error) : resolve(result);
+        })
+    })
+}
 function addAuth(table, data){
     return new Promise( (resolve, reject) =>{
         conexion.query(`INSERT INTO ${table} (id, name, password) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), password = VALUES(password)
@@ -129,20 +153,20 @@ function addAuth(table, data){
         })
     })
 }
-function addReview(table, data){
-    return new Promise( (resolve, reject) =>{
-        conexion.query(`INSERT INTO ${table} (score, content, user_id, book_id) VALUES (?, ?, ?, ?)`, [data.score, data.content, data.user.userId, data.book.bookId], (error, result) =>{
-            return error ? reject(error) : resolve(result);
-        })
-    })
-}
-function addForumMessage(table, data){
-    return new Promise( (resolve, reject) =>{
-        conexion.query(`INSERT INTO ${table} (content, user_id, forum_id) VALUES (?, ?, ?)`, [data.content, data.user.userId, data.forum.forumId], (error, result) =>{
-            return error ? reject(error) : resolve(result);
-        })
-    })
-}
+// function addReview(table, data){
+//     return new Promise( (resolve, reject) =>{
+//         conexion.query(`INSERT INTO ${table} (score, content, user_id, book_id) VALUES (?, ?, ?, ?)`, [data.score, data.content, data.user.userId, data.book.bookId], (error, result) =>{
+//             return error ? reject(error) : resolve(result);
+//         })
+//     })
+// }
+// function addForumMessage(table, data){
+//     return new Promise( (resolve, reject) =>{
+//         conexion.query(`INSERT INTO ${table} (content, user_id, forum_id) VALUES (?, ?, ?)`, [data.content, data.user.userId, data.forum.forumId], (error, result) =>{
+//             return error ? reject(error) : resolve(result);
+//         })
+//     })
+// }
 
 //REMOVE
 function removeBook(table, id){
@@ -173,10 +197,19 @@ function removeForumMessage(table, id){
         })
     })
 }
+function removeLike(table, reviewId, userId, column1, column2){
+    return new Promise( (resolve, reject) =>{
+        conexion.query(`DELETE FROM ${table} WHERE ${column1}_id=? AND ${column2}_id=?`, [reviewId, userId], (error, result) =>{
+            return error ? reject(error) : resolve(result);
+        })
+    })
+}
 
 module.exports = {
     all, 
     allById,
+    allByTitle,
+    allByTwoId,
     oneById,
     oneByNamePassword,
     oneByTitle,
@@ -186,8 +219,10 @@ module.exports = {
     addAuth,
     addReview,
     addForumMessage,
+    addLike,
     removeBook,
     removeUser,
     removeReview,
     removeForumMessage,
+    removeLike
 }

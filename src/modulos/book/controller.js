@@ -11,6 +11,10 @@ module.exports = function (dbInyect){
     function all(){
         return db.all(table)
     }
+
+    function allByTitle(title, column){
+        return db.allByTitle(table, column, title)
+    }
     
     function oneById(id){
         return db.oneById(table, id)
@@ -32,6 +36,7 @@ module.exports = function (dbInyect){
     }
     return {
         all,
+        allByTitle,
         oneById,
         oneByTitle,
         oneImage,

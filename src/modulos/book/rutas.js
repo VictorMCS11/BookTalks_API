@@ -25,6 +25,14 @@ router.get('/', async function (req, res, next){
         next();
     }
 });
+router.post('/bookSearch', async function (req, res, next){
+    try{
+        const items = await controller.allByTitle(req.body.title, req.body.column);
+        responses.success(req, res, items, 200)
+    }catch(err){
+        next();
+    }
+});
 
 router.get('/:id', async function (req, res, next){
     try{

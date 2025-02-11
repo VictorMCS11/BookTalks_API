@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 const auth = require('../../authentication');
 
+const config = require('../../config');
+const jwt = require('jsonwebtoken')
+const secret = config.jwt.secret;
 
 module.exports = function (dbInyect){
 
@@ -14,14 +17,19 @@ module.exports = function (dbInyect){
 
     async function login(name, password, column){
         const data = await db.oneByName(table, name, column);
-        return bcrypt.compare(password, data[0].password)
+        return await bcrypt.compare(password, data[0].password)
             .then(result =>{
                 if(result === true){
                     //Generar un token
-                    return auth.asignarToken({ ...data[0] })
+                    console.log(name, password, column)
+                    console.log(data[0].id)
+                    // return auth.assignToken({ ...data[0] })
+                    return jwt.sign({ name: data[0].name, id: data[0].id }, secret, { expiresIn: '1h' })
                 }else{
-                    throw new Error("Informacion innválida")
+                    console.log("Informacion innválida", result)
                 }
+            }).catch(err =>{
+                throw new Error(err)
             })
     }
 

@@ -13,6 +13,7 @@ const book = require('./modulos/book/rutas.js');
 const review = require('./modulos/review/rutas.js');
 const forum = require('./modulos/forum/rutas.js');
 const forumMessage = require('./modulos/forum_message/rutas.js');
+const likeReview = require('./modulos/like_review/rutas.js');
 
 const error = require('./red/errors.js')
 
@@ -38,6 +39,7 @@ app.use('/api/books', book);
 app.use('/api/reviews', review);
 app.use('/api/forums', forum);
 app.use('/api/forumMessages', forumMessage);
+app.use('/api/likeReview', likeReview);
 app.use(error);
 
 module.exports = app; 
