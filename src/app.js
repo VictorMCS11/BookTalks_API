@@ -28,7 +28,7 @@ app.use(cors({
         const allowedOrigins = [
             'http://185.166.39.53', // IP de tu frontend en Hostinger
             'http://localhost:5174', // Si quieres permitir tu frontend en localhost
-            // Puedes añadir más orígenes aquí
+            'http://91.242.150.149'
         ];
 
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) { // !origin permite acceso desde herramientas como Postman
