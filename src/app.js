@@ -23,7 +23,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'images/bookcovers')))
 app.use(cors({
-    origin: 'http://localhost:5173', // Cambia al origen de tu frontend
+    origin: function (origin, callback) {
+        // Lista de orígenes permitidos
+        const allowedOrigins = [
+            'http://185.166.39.53', // IP de tu frontend en Hostinger
+            'http://localhost:5174', // Si quieres permitir tu frontend en localhost
+            // Puedes añadir más orígenes aquí
+        ];
+
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) { // !origin permite acceso desde herramientas como Postman
+            callback(null, true); // Permite el origen
+        } else {
+            callback(new Error('No permitido por CORS'), false); // Rechaza la solicitud
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     credentials: true, // Si necesitas enviar cookies o encabezados de autenticación
 }));
