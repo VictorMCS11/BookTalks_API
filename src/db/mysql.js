@@ -5,7 +5,8 @@ const dbconfig = {
     host: config.mysql.host,
     user: config.mysql.user,
     password: config.mysql.password,
-    database: config.mysql.database
+    database: config.mysql.database,
+    connectTimeout: 10000 // Tiempo de espera en milisegundos (10 segundos)
 }
 
 let conexion;
