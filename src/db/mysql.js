@@ -6,6 +6,7 @@ const dbconfig = {
     user: config.mysql.user,
     password: config.mysql.password,
     database: config.mysql.database,
+    port: config.mysql.port,
     connectTimeout: 10000 // Tiempo de espera en milisegundos (10 segundos)
 }
 
