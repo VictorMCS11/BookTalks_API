@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const config = require('../config');
 
 const dbconfig = {
@@ -7,9 +7,9 @@ const dbconfig = {
     password: config.mysql.password,
     database: config.mysql.database,
     port: config.mysql.port,
-    connectTimeout: 10000 // Tiempo de espera en milisegundos (10 segundos)
+    // connectTimeout: 10000 // Tiempo de espera en milisegundos (10 segundos)
 }
-
+console.log(dbconfig)
 let conexion;
 
 function conMysql(){
@@ -34,6 +34,7 @@ function conMysql(){
 }
 
 conMysql()
+
 //GET ALL
 function all(table){
     return new Promise( (resolve, reject) =>{
