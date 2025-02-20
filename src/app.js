@@ -31,6 +31,11 @@ app.use(cors({
 //configuración
 app.set('port', config.app.port);
 
+//Comprobar que funciona correctamente
+app.get('/', (req, res) => {
+    res.send('API funcionando correctamente 🚀');
+});
+
 //rutas
 app.use('/api/users', user);
 app.use('/api/login', auth);
