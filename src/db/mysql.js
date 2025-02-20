@@ -9,7 +9,7 @@ const dbconfig = {
     port: config.mysql.port,
     // connectTimeout: 10000 // Tiempo de espera en milisegundos (10 segundos)
 }
-console.log(dbconfig)
+// console.log(dbconfig)
 let conexion;
 
 function conMysql(){

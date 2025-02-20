@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'images/bookcovers')))
 app.use(cors({
-    origin: '*',  // Permite todos los orígenes (no recomendado en producción),
+    origin: 'http://booktalks.site',  // Permite todos los orígenes (no recomendado en producción),
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     credentials: true, // Si necesitas enviar cookies o encabezados de autenticación
 }));
