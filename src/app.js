@@ -9,7 +9,6 @@ const app = express();
 const user = require('./modulos/user/rutas.js');
 const auth = require('./modulos/auth/rutas.js');
 const book = require('./modulos/book/rutas.js');
-// const bookCover = require('./images/bookcovers');
 const review = require('./modulos/review/rutas.js');
 const forum = require('./modulos/forum/rutas.js');
 const forumMessage = require('./modulos/forum_message/rutas.js');
@@ -40,7 +39,6 @@ app.get('/', (req, res) => {
 app.use('/api/users', user);
 app.use('/api/login', auth);
 app.use('/api/books', book);
-// app.use('/api/bookcover', bookCover);
 app.use('/api/reviews', review);
 app.use('/api/forums', forum);
 app.use('/api/forumMessages', forumMessage);
