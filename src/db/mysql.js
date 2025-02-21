@@ -53,8 +53,8 @@ function allById(table, id, column){
 function allByTitle(table, column, title){
     return new Promise( (resolve, reject) =>{
         console.log(table, title, column)
-        const sql = `SELECT * FROM ${table} WHERE ${column} LIKE '?';`;
-        conexion.query(sql, [`%${title}%`], (error, result) => {
+        const sql = `SELECT * FROM ${table} WHERE ${column} LIKE ?`;
+        conexion.query(sql, [`'%${title}%'`], (error, result) => {
             return error ? reject(error) : resolve(result);
         });
     })
